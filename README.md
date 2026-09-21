@@ -1,45 +1,55 @@
-*This project has been created as part of the 42 curriculum by aalemami*
+*This project has been created as part of the 42 curriculum by aalemami.*
 
-# mini_talk
+# minitalk
+
+---
 
 ## Description
 
-mini_talk is a small educational project implementing inter-process communication using UNIX signals. The goal is to send text from a client to a server by encoding each byte as eight signals (SIGUSR1 for bit 1, SIGUSR2 for bit 0). The server reconstructs bytes from the incoming signals and prints the received message. This project is intended to teach low-level IPC, signal handling, and synchronization considerations.
+minitalk is an inter-process communication project using UNIX signals. The goal is to transmit arbitrary strings from a client process to a server process by encoding each byte as eight individual signals (`SIGUSR1` representing bit 1, and `SIGUSR2` representing bit 0).
+
+The server reconstructs characters bit-by-bit from the incoming signal stream and displays the complete message upon receiving the null terminator byte. The project demonstrates low-level POSIX signal handling, asynchronous execution, and signal safety.
+
+---
 
 ## Instructions
 
-Compilation
-- Build the project with the top-level Makefile:
-  ```sh
-  make
-  ```
+### Compilation
 
-Execution
-1. Start the server in a terminal:
-   ```sh
+Compile the client and server binaries using `make`:
+
+```bash
+make
+```
+
+Additional rules:
+```bash
+make clean   # Remove object files
+make fclean  # Remove object files and binaries
+make re      # Rebuild from scratch
+```
+
+### Execution
+
+1. Start the server in one terminal:
+   ```bash
    ./server
    ```
-   The server prints its PID on start.
-2. From another terminal, send a message with the client:
-   ```sh
-   ./client <SERVER_PID> "Your message here"
+   The server prints its Process ID (PID) and awaits signals.
+
+2. In a second terminal, send a message using the client:
+   ```bash
+   ./client <SERVER_PID> "Hello, 42!"
    ```
 
-Notes
-- Ensure server and client binaries are up-to-date after building.
-- Run client and server in separate terminals. If messages are garbled, try adding short delays between signals in the client.
+---
 
 ## Resources
 
-References
-- signal(7) — Linux manual pages: https://man7.org/linux/man-pages/man7/signal.7.html
-- kill(1) — sending signals: https://man7.org/linux/man-pages/man1/kill.1.html
-- POSIX signal handling documentation
+- [signal(7) — Linux manual page](https://man7.org/linux/man-pages/man7/signal.7.html)
+- [sigaction(2) — Linux manual page](https://man7.org/linux/man-pages/man2/sigaction.2.html)
+- [kill(2) — Linux manual page](https://man7.org/linux/man-pages/man2/kill.2.html)
 
-AI usage
-- This README was drafted with assistance from GPT-5 mini to structure and compose the documentation only. Code and core project logic were implemented by the author.
+### AI Usage
 
-## License
-
-No license.
-
+AI tools were used for assistance in structuring and formatting this README documentation. The core project logic and signal handlers were implemented manually.
